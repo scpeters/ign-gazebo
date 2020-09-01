@@ -60,9 +60,15 @@ static bool isSubset(const sdf::ElementPtr &_elemA,
     sdf::ParamPtr attrA = _elemA->GetAttribute(i);
     sdf::ParamPtr attrB = _elemB->GetAttribute(attrA->GetKey());
     if (attrA->GetTypeName() != attrB->GetTypeName())
+    {
+      std::cerr << "attribute typenames [" << attrA->GetTypeName() << "] != [" << attrB->GetTypeName() << "]" << std::endl;
       return false;
+    }
     if (attrA->GetAsString() != attrB->GetAsString())
+    {
+      std::cerr << "attribute values [" << attrA->GetAsString() << "] != [" << attrB->GetAsString() << "]" << std::endl;
       return false;
+    }
   }
   // Compare values
   {
@@ -71,11 +77,20 @@ static bool isSubset(const sdf::ElementPtr &_elemA,
     {
       sdf::ParamPtr valB = _elemB->GetValue();
       if (nullptr == valB)
+      {
+        std::cerr << "valB nullptr" << std::endl;
         return false;
+      }
       if (valA->GetTypeName() != valB->GetTypeName())
+      {
+        std::cerr << "element typenames [" << valA->GetTypeName() << "] != [" << valB->GetTypeName() << "]" << std::endl;
         return false;
+      }
       if (valA->GetAsString() != valB->GetAsString())
+      {
+        std::cerr << "element values [" << valA->GetAsString() << "] != [" << valB->GetAsString() << "]" << std::endl;
         return false;
+      }
     }
   }
 
@@ -100,7 +115,10 @@ static bool isSubset(const sdf::ElementPtr &_elemA,
     }
 
     if (!result)
+    {
+      std::cerr << "recursive !isSubset" << std::endl;
       return false;
+    }
   }
 
   return true;
